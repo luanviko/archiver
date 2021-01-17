@@ -11,11 +11,13 @@ The folder to store the entries, to store the *.tex* and *.pdf* files, as well a
 ## archiver.config
 The *archiver.config* should look like this
 
+```bash
 Directory to store entries: /home/<user>/<save_directory>
 Directory to tex file: /home/<user>/<tex_directory>
 Author's name: <author>
 Title: <title>
 Preferred editor: nano
+```
 
 The script will look for the *archiver.config* file in the directory it is stored. If the *config* file is not present, the script will open nano and allow you to fill in the required fields.
 
