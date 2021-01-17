@@ -2,7 +2,7 @@
 A Python3 script to write down daily notes in an organized manner.
 
 ## Introduction
-This python3 script was born from a friend's need to have an app that takes in your daily notes directly from a terminal and organize it for you. We had different ideas on how to solve this problem, and this python script is my solution.
+This python3 script was born from a friend's need to have an app that takes in your daily notes directly from a terminal and organizes it for you. We had different ideas on how to create this app, and this python script is my approach.
 
 When invoking the *archiver*, it will automatically open your preferred editor (nano, vim, or whatever else) and save your input into an organized *.tex* file, in a folder of your preference. Then, if you want, the script will generate a compilable *.tex* file with all your daily entries in the folder and compile it with *pdflatex*.
 
