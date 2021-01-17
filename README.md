@@ -24,6 +24,8 @@ The script will look for the *archiver.config* file in the directory it is store
 ## Pre-requisites
 The python3 script is based mainly on built-in libraries, but it requires the installation of the *glob* library. The way I like to install python3 packages is via *pip*
 
+```bash
 pip3 install -U glob
+```
 
 It also requires a bunch of LaTeX packages, which are probably installed by the distribution you already have. Otherwise, you can install tex-live's full scheme, which is always what I do. 
