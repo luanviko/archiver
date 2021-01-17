@@ -2,14 +2,14 @@
 A Python3 script to write down daily notes in an organized manner.
 
 ## Introduction
-This python3 script was born from a friend's need to have an app that takes in your daily notes directly from a terminal and organizes it for you. We had different ideas on how to create this app, and this python script is my approach.
+This python3 script was born from a friend's need to have an app that takes in his daily notes directly from a terminal and organizes it for you. We had different ideas on how to create this app, and this python script is my approach.
 
 When invoking the *archiver*, it will automatically open your preferred editor (nano, vim, or whatever else) and save your input into an organized *.tex* file, in a folder of your preference. Then, if you want, the script will generate a compilable *.tex* file with all your daily entries in the folder and compile it with *pdflatex*.
 
-The folder to store the entries, to store the *.tex* and *.pdf* files, as well as author's name and preferred editor, are store in the *archiver.config* file, which is generated automatically for you when using the script for the first time. The final *.tex* file is generated based on the *preamble.tex* file, which you can customize as you want.
+The folder wherein to store your entries, to store the *.tex* and *.pdf* files, as well as the author's name and preferred editor, are stored in the *archiver.config* file, which is generated automatically for you when using the script for the first time. The final *.tex* file is generated based on the *preamble.tex* file, which you can customize as you want.
 
 ## archiver.config
-The *archiver.config* should look like this
+The *archiver.config* should look like below Please use the absolute paths of the directories, and create them before using the script. It will not generate folders automatically.
 
 ```bash
 Directory to store entries: /home/<user>/<save_directory>
