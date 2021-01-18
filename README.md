@@ -24,6 +24,9 @@ The script will look for the *archiver.config* file in the directory it is store
 ## LaTeX template
 A *preamble.tex* contains the usual LaTeX preamble that I use for my notes. It is customizable to what you want. Just make sure that it contains only **style** and **general type-setting** commands; the author, title and date information, as well as the document's begin and end points, are added by the script.
 
+![Screenshot](title.png)
+
+
 ## Pre-requisites
 The python3 script is based mainly on built-in libraries, but it requires the installation of the *glob* library. The way I like to install python3 packages is via *pip*
 
