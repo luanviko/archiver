@@ -24,7 +24,7 @@ The script will look for the *archiver.config* file in the directory it is store
 ## LaTeX template
 A *preamble.tex* contains the usual LaTeX preamble that I use for my notes. It is customizable to what you want. Just make sure that it contains only **style** and **general type-setting** commands; the author, title and date information, as well as the document's begin and end points, are added by the script.
 
-The template I like using for my notes is very minimalistic, as shown in the images. My notes are called *Eclíptica*, but you can specify your title and author name in the *archiver.config* file. The year is obtained automatically.
+The template I like using for my notes is very minimalistic, as shown in the images. My notes are called *Eclíptica*, but you can specify your title and author name in the *archiver.config* file. The year is set automatically.
 
 ![Screenshot](title.png)
 ![Screenshot](entry.png)
