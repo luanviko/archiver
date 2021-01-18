@@ -9,7 +9,7 @@ When invoking the *archiver*, it will automatically open your preferred editor (
 The folder wherein to store your entries, to store the *.tex* and *.pdf* files, as well as the author's name and preferred editor, are stored in the *archiver.config* file, which is generated automatically for you when using the script for the first time. The final *.tex* file is generated based on the *preamble.tex* file, which you can customize as you want.
 
 ## archiver.config
-The *archiver.config* should look like below Please use the absolute paths of the directories, and create them before using the script. It will not generate folders automatically.
+The *archiver.config* should look like below. Please use absolute paths of directories, and create them before using the script; it will not generate folders automatically.
 
 ```bash
 Directory to store entries: /home/<user>/<save_directory>
