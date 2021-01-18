@@ -14,7 +14,7 @@ The *archiver.config* should look like below Please use the absolute paths of th
 ```bash
 Directory to store entries: /home/<user>/<save_directory>
 Directory to tex file: /home/<user>/<tex_directory>
-Author's name: <author>
+Author name: <author>
 Title: <title>
 Preferred editor: nano
 ```
