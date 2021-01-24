@@ -52,5 +52,5 @@ Add the path to the directory of *archiver.py*.
 
 Create a symbolic link of *archive.sh* to */usr/bin* as
 ```bash
-ln -s <path_to_archive.sh> /usr/bin/archive
+ln -s <path_to_archive.sh> /usr/bin/archiver
 ```
