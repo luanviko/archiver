@@ -45,12 +45,12 @@ To run the script from anywhere in your terminal, you can add a symbolic link of
 First, open your *archive.sh* bash script. It looks like this
 ```bash
 #!/bin/bash
-cd <path_to_archiver.py_directory>
+cd <installation_folder>
 python3 ./archiver.py
 ```
-Add the path to the directory of *archiver.py*.
+Change *<installation_folder>* to the folder into which you copied *archiver.py*.
 
-Create a symbolic link of *archive.sh* to */usr/bin* as
+Create a symbolic link of *archiver.sh* to */usr/bin* as
 ```bash
-ln -s <path_to_archive.sh> /usr/bin/archiver
+ln -s <installation_folder/archive.sh> /usr/bin/archiver
 ```
