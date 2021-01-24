@@ -1,3 +1,3 @@
 #!/bin/bash
-cd $HOME/Programs_temp/archiver_prototype
+cd <path_to_archive.py_directory>
 python3 ./archiver.py
