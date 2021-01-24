@@ -38,3 +38,19 @@ pip3 install -U glob
 ```
 
 It also requires a bunch of LaTeX packages, which are probably installed by the distribution you already have. Otherwise, you can install tex-live's full scheme, which is always what I do. 
+
+## Installation
+To run the script from anywhere in your terminal, you can add a symbolic link of the *archive.sh* bash script to your */usr/bin* folder.
+
+First, open your *archive.sh* bash script. It looks like this
+```bash
+#!/bin/bash
+cd <path_to_archiver.py_directory>
+python3 ./archiver.py
+```
+Add the path to the directory of *archiver.py*.
+
+Create a symbolic link of *archive.sh* to */usr/bin* as
+```bash
+ln -s <path_to_archive.sh> /usr/bin/archive
+```
