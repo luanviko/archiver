@@ -25,32 +25,36 @@ def openConfig(configfile: str) -> list:
 def generateConfig(configfile: str):
     ## Generate a config file.
     with open("./{0}".format(configfile), "w") as fw:
-        fw.write("Directory to store entries:\n")
-        fw.write("Directory to tex file:\n")
-        fw.write("Author's name:\n")
-        fw.write("Title:\n")
-        fw.write("Prefered editor: nano\n")
+        fw.write(
+        "Directory to store entries:\n"
+        "Directory to tex file:\n"
+        "Author's name:\n"
+        "Title:\n"
+        "Prefered editor: nano\n"
+        )
     call(["nano", configfile])
 
 def tryConfig(configfile: str):
     ## Looks for a config file
     #  in the directory.
     command = ['ls','-l']
-    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    result = run(command, stdout = PIPE, stderr = PIPE, universal_newlines = True)
 
     if result.stdout.find(configfile) != -1:
         details = openConfig(configfile)
     else:
         print("config file not found.")
-        yn = input("Do you want to generate it? (y/n)")
-        if yn == 'y':
-            generateConfig(configfile)
-        elif yn == 'n':
-            details = [0]
-        else:
-            input("Please answer y or n.")
+        while True: 
+            yn = input("Do you want to generate it? (y/n)")
+            if yn == 'y':
+                generateConfig(configfile)
+                return details
+            elif yn == 'n':
+                details = [0]
+                return details
+             else:
+                input("Please answer y or n.")
         
-    return details
 
 def generateTex(save_directory, tex_directory, year_number, AUTHOR, TITLE):
     ## Generates a tex file from the sfiles 
@@ -84,14 +88,19 @@ def generateTex(save_directory, tex_directory, year_number, AUTHOR, TITLE):
 
         # Closing tex the document
         fw.write(r"\end{document}")
-
-    yn = input(".tex file generated. Do you want to compile it with pdflatex? (y/n)")
-    if yn == 'y':
-        os.chdir(tex_directory)
-        p = subprocess.Popen("pdflatex {0}".format(texfile), shell = True)
-        p.wait()
-    else:
-        print("See you next time!")
+    
+    while True: 
+        yn = input(".tex file generated. Do you want to compile it with pdflatex? (y/n)")
+        if yn == 'y':
+            os.chdir(tex_directory)
+            p = subprocess.Popen("pdflatex {0}".format(texfile), shell = True)
+            p.wait()
+            return
+        elif yn == 'n':
+            print("See you next time!")
+            return
+        else:
+            print("Only y or n")
 
 def writeEntry(configfile):
 
@@ -121,7 +130,7 @@ def writeEntry(configfile):
         save_directory = details[0].replace("\n","")
         
         # Path to store tex and pdf file
-        tex_directory =details[1].replace("\n","")
+        tex_directory = details[1].replace("\n","")
         
         # Author information
         AUTHOR = details[2].replace("\n","")
@@ -161,13 +170,21 @@ def writeEntry(configfile):
                     p.wait()
                 else:     
                     print("Entry's location: {0}".format(final_path) )
-                    yn = input("Do you want to generate and compile a tex file with all the entries? (y/n)")
-                    
-                    if yn == 'y':
-                        generateTex(save_directory,tex_directory, year_number, AUTHOR, TITLE)
-                        
-                    else:
-                        print("Then it is all done. See you next time.")
+                    while True:
+                        yn = input("Do you want to generate and compile a tex file with all the entries? (y/n)")
+                        if yn == 'y':
+                             generateTex(save_directory, 
+                                         tex_directory, 
+                                         year_number, 
+                                         AUTHOR, 
+                                         TITLE 
+                             )
+                             return
+                        elif yn == 'n':
+                            print("Then it is all done. See you next time.")
+                            return
+                        else:
+                            print("Only y or n")
 
         except OSError as e:
             print("No entry to be stored. Goodbye!")
