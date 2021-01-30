@@ -12,29 +12,27 @@ from subprocess import call,PIPE,run
 import datetime
 import glob
 
-def openConfig(configfile):
+def openConfig(configfile: str) -> list:
     ## Opens the configu file.
     details = []
-    configOpener = open(configfile,'r')
-    configRaw = configOpener.readlines()
-    for lines in configRaw:
-        lineSplit = lines.split(': ')
-        details.append(lineSplit[-1])
+    with open(configfile, 'r') as f:
+        for lines in f.readlines():
+            lineSplit = lines.split(': ')
+            details.append(lineSplit[-1])
+
     return details
 
-def generateConfig(configfile):
+def generateConfig(configfile: str):
     ## Generate a config file.
+    with open("./{0}".format(configfile), "w") as fw:
+        fw.write("Directory to store entries:\n")
+        fw.write("Directory to tex file:\n")
+        fw.write("Author's name:\n")
+        fw.write("Title:\n")
+        fw.write("Prefered editor: nano\n")
+    call(["nano", configfile])
 
-    configwriter = open("./{0}".format(configfile), "w")
-    configwriter.write("Directory to store entries:\n")
-    configwriter.write("Directory to tex file:\n")
-    configwriter.write("Author's name:\n")
-    configwriter.write("Title:\n")
-    configwriter.write("Prefered editor: nano\n")
-    configwriter.close()
-    call(["nano",configfile])
-
-def tryConfig(configfile):
+def tryConfig(configfile: str):
     ## Looks for a config file
     #  in the directory.
     command = ['ls','-l']
@@ -42,61 +40,55 @@ def tryConfig(configfile):
 
     if result.stdout.find(configfile) != -1:
         details = openConfig(configfile)
-        
     else:
-        details = []
         print("config file not found.")
         yn = input("Do you want to generate it? (y/n)")
         if yn == 'y':
             generateConfig(configfile)
-        if yn == 'n':
-            details.append(0)
+        elif yn == 'n':
+            details = [0]
         else:
             input("Please answer y or n.")
         
     return details
 
-def generateTex(save_directory,tex_directory, year_number, AUTHOR, TITLE):
+def generateTex(save_directory, tex_directory, year_number, AUTHOR, TITLE):
     ## Generates a tex file from the sfiles 
     ## in the save_directory. 
     ## The tex will be store at tex_directory.
 
     # Open the main tex file to be compiled
-    texfile = tex_directory+"/{0}_{1}.tex".format(AUTHOR.replace(" ","_"),year_number)
-    tex_writer = open(texfile, "w")
+    texfile = tex_directory + "/{0}_{1}.tex".format(AUTHOR.replace(" ","_"), year_number)
 
-    # Copying the preamble as defined by the template
-    tex_preamble = open("./preamble.tex","r")
-    preamble = tex_preamble.readlines()
-    for line in preamble:
-        tex_writer.write(line)
-
-    # Adding author and date information
-    tex_writer.write("\n"+r"\author{"+"{0}".format(AUTHOR)+r"}"+"\n")
-    tex_writer.write(r"\date{"+"{0}".format(year_number)+r"}"+"\n")
-    tex_writer.write(r"\title{"+"{0}".format(TITLE)+r"}"+"\n")
-
-    tex_writer.write(r"""\begin{document}
-\maketitle
-\pagestyle{plain}
-""")
-
-    # Opening all entries
+    # Getting entries
     os.chdir(save_directory)
     files_list = sorted(glob.glob("*.tex"))
-    for file_entry in files_list:
-        tex_writer.write(r"\input{"+"{0}/{1}".format(save_directory,file_entry)+r"}"+"\n")
 
-    # Closing the document
-    tex_writer.write(r"\end{document}")
+    with open(texfile, "w") as fw:
+        # Copying the preamble as defined by the template
+        with open("./preamble.tex", "r") as ptex:
+            fw.write(ptex.read())
+        # Adding author and date information
+        fw.write("\n"+r"\author{"+"{0}".format(AUTHOR)+r"}"+"\n")
+        fw.write(r"\date{"+"{0}".format(year_number)+r"}"+"\n")
+        fw.write(r"\title{"+"{0}".format(TITLE)+r"}"+"\n")
 
-    # Closing the file
-    tex_writer.close()
+        fw.write(r"""\begin{document}
+                     \maketitle
+                     \pagestyle{plain}
+         """)
+
+        # Writing entries
+        for file_entry in files_list:
+            fw.write(r"\input{"+"{0}/{1}".format(save_directory,file_entry)+r"}"+"\n")
+
+        # Closing tex the document
+        fw.write(r"\end{document}")
 
     yn = input(".tex file generated. Do you want to compile it with pdflatex? (y/n)")
     if yn == 'y':
         os.chdir(tex_directory)
-        p=subprocess.Popen("pdflatex {0}".format(texfile), shell=True )
+        p = subprocess.Popen("pdflatex {0}".format(texfile), shell = True)
         p.wait()
     else:
         print("See you next time!")
@@ -147,9 +139,8 @@ def writeEntry(configfile):
         final_path = "{0}/{1}".format(save_directory,file_name)
         
         # Write header to file:
-        file_writer = open(final_path,"w")
-        file_writer.write("\section*{"+"{0} {1}, {2}:{3}".format(month_name,day_number,hour_24,minute)+"}\n")
-        file_writer.close()
+        with open(final_path, "w") as fw: 
+            fw.write("\section*{"+"{0} {1}, {2}:{3}".format(month_name,day_number,hour_24,minute)+"}\n")
 
         # Invoke editor of choice
         call([EDITOR,"{0}".format(final_path)])
@@ -158,24 +149,25 @@ def writeEntry(configfile):
         # or pretend there was no entry. 
         try:
             tempreader = open(final_path,"r")
-            tempcontents = tempreader.readlines()
-        
-            # If empty, delete it. 
-            # If not empty, save it.
-            # Then ask to create tex file.
-            if len(tempcontents) == 1:
-                print("Files with only the header present are not stored. Goodbye!")
-                p = subprocess.Popen("rm {0}".format(final_path), shell=True )
-                p.wait()
-            else:     
-                print("Entry's location: {0}".format(final_path) )
-                yn = input("Do you want to generate and compile a tex file with all the entries? (y/n)")
-                
-                if yn == 'y':
-                    generateTex(save_directory,tex_directory, year_number, AUTHOR, TITLE)
+            with open(final_path, "r") as tempreader:
+                tempcontents = tempreader.readlines()
+            
+                # If empty, delete it. 
+                # If not empty, save it.
+                # Then ask to create tex file.
+                if len(tempcontents) == 1:
+                    print("Files with only the header present are not stored. Goodbye!")
+                    p = subprocess.Popen("rm {0}".format(final_path), shell=True )
+                    p.wait()
+                else:     
+                    print("Entry's location: {0}".format(final_path) )
+                    yn = input("Do you want to generate and compile a tex file with all the entries? (y/n)")
                     
-                else:
-                    print("Then it is all done. See you next time.")
+                    if yn == 'y':
+                        generateTex(save_directory,tex_directory, year_number, AUTHOR, TITLE)
+                        
+                    else:
+                        print("Then it is all done. See you next time.")
 
         except OSError as e:
             print("No entry to be stored. Goodbye!")
