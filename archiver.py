@@ -127,19 +127,19 @@ def writeEntry(configfile):
         ### Organize the details from config file
 
         # Path to save entries
-        save_directory = details[0].replace("\n","")
+        save_directory = details[0].rsplit()
         
         # Path to store tex and pdf file
-        tex_directory = details[1].replace("\n","")
+        tex_directory = details[1].rsplit()
         
         # Author information
-        AUTHOR = details[2].replace("\n","")
+        AUTHOR = details[2].rsplit()
 
         # Title
-        TITLE = details[3].replace("\n","")
+        TITLE = details[3].rsplit()
         
         # Prefered editor
-        EDITOR = details[4].replace("\n","")
+        EDITOR = details[4].rsplit()
 
         ### Proceed to creating entry
 
